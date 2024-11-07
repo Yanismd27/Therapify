@@ -113,7 +113,7 @@
                     </div>
                   </div>
                   <Link 
-                    :href="route('profile.edit')"
+                    :href="route(user.role === 'therapist' ? 'therapist.profile' : 'patient.profile')"
                     class="text-purple-600 hover:text-purple-700 text-sm flex items-center"
                   >
                     Complete your profile
@@ -151,67 +151,67 @@
         </div>
       </div>
     </AuthenticatedLayout>
-  </template>
+</template>
   
-  <script setup>
-  import { Head, Link } from '@inertiajs/vue3';
-  import { usePage } from '@inertiajs/vue3';
-  import { computed } from 'vue';
-  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-  
-  const page = usePage();
-  const user = computed(() => page.props.auth.user);
-  
-  // Données statiques pour la démo
-  const stats = [
-    { title: 'Total Patients', value: '48', trend: 12, icon: '👥' },
-    { title: 'Sessions This Week', value: '24', trend: 8, icon: '📅' },
-    { title: 'Avg. Rating', value: '4.8', trend: 2, icon: '⭐' },
-    { title: 'Revenue', value: '$2.4k', trend: -5, icon: '💰' }
-  ];
-  
-  const todaySessions = [
-    {
-      id: 1,
-      patient: { name: 'John Doe' },
-      time: '10:00 AM - 11:00 AM'
-    },
-    {
-      id: 2,
-      patient: { name: 'Jane Smith' },
-      time: '2:00 PM - 3:00 PM'
-    }
-  ];
-  
-  const quickActions = [
-    {
-      icon: '📅',
-      title: 'Schedule Session',
-      description: 'Create a new appointment',
-      href: route('therapist.schedule')
-    },
-    {
-      icon: '📝',
-      title: 'Write Notes',
-      description: 'Document session notes',
-      href: '#'
-    },
-    {
-      icon: '📊',
-      title: 'View Analytics',
-      description: 'Check your performance',
-      href: '#'
-    }
-  ];
-  </script>
-  
-  <style scoped>
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+<script setup>
+import { Head, Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
+
+// Données statiques pour la démo
+const stats = [
+  { title: 'Total Patients', value: '48', trend: 12, icon: '👥' },
+  { title: 'Sessions This Week', value: '24', trend: 8, icon: '📅' },
+  { title: 'Avg. Rating', value: '4.8', trend: 2, icon: '⭐' },
+  { title: 'Revenue', value: '$2.4k', trend: -5, icon: '💰' }
+];
+
+const todaySessions = [
+  {
+    id: 1,
+    patient: { name: 'John Doe' },
+    time: '10:00 AM - 11:00 AM'
+  },
+  {
+    id: 2,
+    patient: { name: 'Jane Smith' },
+    time: '2:00 PM - 3:00 PM'
   }
-  
-  .animate-fadeIn {
-    animation: fadeIn 0.6s ease-out forwards;
+];
+
+const quickActions = [
+  {
+    icon: '📅',
+    title: 'Schedule Session',
+    description: 'Create a new appointment',
+    href: route('therapist.schedule')
+  },
+  {
+    icon: '📝',
+    title: 'Write Notes',
+    description: 'Document session notes',
+    href: '#'
+  },
+  {
+    icon: '📊',
+    title: 'View Analytics',
+    description: 'Check your performance',
+    href: '#'
   }
-  </style>
+];
+</script>
+
+<style scoped>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+</style>

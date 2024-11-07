@@ -214,15 +214,13 @@ import { ref, computed, onMounted } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Modal from '@/Components/Modal.vue';
-import { useToast } from 'vue-toastification';
+import toast from '@/Utils/toast';
 
-// Créer l'instance toast correctement
-const toast = useToast();
 
 // Tester le toast au montage du composant
 onMounted(() => {
- console.log('Component mounted, testing toast...');
- toast.success("Composant chargé");
+    console.log('Component mounted, testing toast...');
+    toast.success("Composant chargé");
 });
 
 const props = defineProps({
@@ -336,49 +334,31 @@ const parseTime = (timeStr) => {
 };
 
 const confirmBooking = () => {
-  if (!isBookingValid.value) {
-    toast.error("Veuillez remplir tous les champs requis");
-    return;
-  }
-
-  // Format date and time
-  const [hours, minutes] = selectedTime.value.match(/(\d+):(\d+)/).slice(1);
-  let hour = parseInt(hours);
-  const isPM = selectedTime.value.includes('PM');
-  
-  if (isPM && hour !== 12) hour += 12;
-  if (!isPM && hour === 12) hour = 0;
-
-  const scheduledDate = new Date(bookingDate.value);
-  scheduledDate.setHours(hour);
-  scheduledDate.setMinutes(parseInt(minutes));
-
-  console.log('Préparation des données pour la réservation:', {
-    therapist_id: selectedTherapist.value.id,
-    scheduled_at: scheduledDate.toISOString(),
-    type: sessionType.value,
-    notes: notes.value
-  });
-
-  toast.info("Traitement de la réservation...");
-
-  form.post(route('appointments.store'), {
-    therapist_id: selectedTherapist.value.id,
-    scheduled_at: scheduledDate.toISOString(),
-    type: sessionType.value,
-    notes: notes.value
-  }, {
-    preserveScroll: true,
-    onSuccess: () => {
-      console.log('Réservation réussie');
-      toast.success("Rendez-vous programmé avec succès");
-      closeBookingModal();
-      router.get(route('appointments.index'));
-    },
-    onError: (errors) => {
-      console.error('Erreurs de réservation:', errors);
-      toast.error("Erreur lors de la réservation");
+    if (!isBookingValid.value) {
+        toast.error("Veuillez remplir tous les champs requis");
+        return;
     }
-  });
+
+    form.clearErrors();
+    toast.info("Traitement de la réservation...");
+
+    form.post(route('appointments.store'), {
+        therapist_id: selectedTherapist.value.id,
+        scheduled_at: scheduledDate.toISOString(),
+        type: sessionType.value,
+        notes: notes.value
+    }, {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: () => {
+            toast.success("Rendez-vous programmé avec succès");
+            closeBookingModal();
+            window.location.href = route('appointments.index');
+        },
+        onError: (errors) => {
+            toast.error("Erreur lors de la réservation");
+            console.error('Booking errors:', errors);
+        }
+    });
 };
 </script>

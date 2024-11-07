@@ -368,38 +368,38 @@
    // Actions rapides
    const quickActions = [
     {
-      icon: '📅',
-      title: 'Book Session',
-      description: 'Schedule your next therapy session',
-      href: route('patient.therapists')
+        icon: '📅',
+        title: 'Book Session',
+        description: 'Schedule your next therapy session',
+        href: route('patient.therapists')
     },
     {
-      icon: '📝',
-      title: 'Journal Entry',
-      description: 'Write about your day',
-      href: '#'
+        icon: '📝',
+        title: 'Journal Entry',
+        description: 'Write about your day',
+        href: route('patient.wellness.journal')  // Modifié ici
     },
     {
-      icon: '🎯',
-      title: 'Update Goals',
-      description: 'Track your progress',
-      href: '#'
+        icon: '🎯',
+        title: 'Update Goals',
+        description: 'Track your progress',
+        href: '#'
     }
-   ];
+];
    
    // Ressources
    const resources = [
     {
-      title: 'Meditation Guide',
-      description: 'Learn basic meditation techniques',
-      href: '#'
+        title: 'Meditation Guide',
+        description: 'Learn basic meditation techniques',
+        href: route('patient.wellness.meditation')  
     },
     {
-      title: 'Stress Management',
-      description: 'Tips for managing daily stress',
-      href: '#'
+        title: 'Stress Management',
+        description: 'Tips for managing daily stress',
+        href: route('patient.wellness.stress')  
     }
-   ];
+];
    </script>
    
    <style scoped>

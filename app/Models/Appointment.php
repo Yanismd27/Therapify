@@ -11,13 +11,20 @@ class Appointment extends Model
         'patient_id',
         'therapist_id',
         'scheduled_at',
-        'end_time',
         'status',
-        'notes'
+        'notes',
+        'type',
+        'cancelled_at',
+        'completed_at',
+        'cancellation_reason'
     ];
 
     protected $casts = [
-        'scheduled_at' => 'datetime'
+        'scheduled_at' => 'datetime',
+        'cancelled_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
     // Relations
@@ -39,13 +46,24 @@ class Appointment extends Model
     // Scopes
     public function scopeUpcoming($query)
     {
-        return $query->where('start_time', '>=', Carbon::now())
+        return $query->where('scheduled_at', '>=', Carbon::now())
                     ->where('status', 'scheduled');
     }
 
     public function scopePast($query)
     {
-        return $query->where('start_time', '<', Carbon::now())
+        return $query->where('scheduled_at', '<', Carbon::now())
                     ->orWhere('status', 'completed');
+    }
+
+    // Accessors & Mutators
+    public function getIsUpcomingAttribute()
+    {
+        return $this->scheduled_at >= Carbon::now() && $this->status === 'scheduled';
+    }
+
+    public function getIsPastAttribute()
+    {
+        return $this->scheduled_at < Carbon::now() || $this->status === 'completed';
     }
 }

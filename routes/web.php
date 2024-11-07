@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Routes publiques
@@ -55,6 +57,71 @@ Route::get('/our-therapists', function () {
     return Inertia::render('PublicTherapists');
 })->name('our-therapists');
 
+
+/*
+|--------------------------------------------------------------------------
+| Routes des pages légales et informatives
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('policies')->group(function () {
+    Route::get('/patient', function () {
+        return Inertia::render('Policies/PatientPolicy');
+    })->name('policies.patient');
+
+    Route::get('/therapist', function () {
+        return Inertia::render('Policies/TherapistPolicy');
+    })->name('policies.therapist');
+
+    Route::get('/appointment', function () {
+        return Inertia::render('Policies/AppointmentPolicy');
+    })->name('policies.appointment');
+
+    Route::get('/review', function () {
+        return Inertia::render('Policies/ReviewPolicy');
+    })->name('policies.review');
+});
+
+Route::prefix('legal')->group(function () {
+    Route::get('/privacy', function () {
+        return Inertia::render('Legal/Privacy');
+    })->name('legal.privacy');
+
+    Route::get('/terms', function () {
+        return Inertia::render('Legal/Terms');
+    })->name('legal.terms');
+
+    Route::get('/cookie-policy', function () {
+        return Inertia::render('Legal/CookiePolicy');
+    })->name('legal.cookies');
+});
+
+Route::prefix('company')->group(function () {
+    Route::get('/about', function () {
+        return Inertia::render('Company/About');
+    })->name('company.about');
+
+    Route::get('/contact', function () {
+        return Inertia::render('Company/Contact');
+    })->name('company.contact');
+
+    Route::get('/careers', function () {
+        return Inertia::render('Company/Careers');
+    })->name('company.careers');
+});
+
+Route::get('/accessibility', function () {
+    return Inertia::render('Accessibility');
+})->name('accessibility');
+
+Route::get('/sitemap', function () {
+    return Inertia::render('Sitemap');
+})->name('sitemap');
+
+Route::get('/emergency-resources', function () {
+    return Inertia::render('EmergencyResources');
+})->name('emergency-resources');
+
 /*
 |--------------------------------------------------------------------------
 | Routes d'authentification
@@ -95,18 +162,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     })->name('dashboard');
 
-    // Routes du profil
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile', 'edit')->name('profile.edit');
-        Route::patch('/profile', 'update')->name('profile.update');
-        Route::delete('/profile', 'destroy')->name('profile.destroy');
-    });
 
     // Routes pour les patients
     Route::middleware('role:patient')->prefix('patient')->group(function () {
         Route::get('/dashboard', [PatientController::class, 'dashboard'])
             ->name('patient.dashboard');
-        
+
+        //Routes How it Works
+        Route::get('/how-it-works', function () {
+            return Inertia::render('HowItWorks');
+        })->name('how-it-works');
+            
         // Gestion des thérapeutes
         Route::get('/therapists', [PatientController::class, 'therapists'])
             ->name('patient.therapists');
@@ -124,6 +190,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Gestion des avis
         Route::post('/appointments/{appointment}/review', [ReviewController::class, 'store'])
             ->name('reviews.store');
+
+        // Routes du profil patient
+        Route::get('/profile', [PatientController::class, 'profile'])
+            ->name('patient.profile');
+        Route::post('/profile/update', [PatientController::class, 'updateProfile'])
+            ->name('patient.profile.update');
+
+       // Routes Wellness
+       Route::prefix('wellness')->group(function () {
+        Route::get('/meditation', function () {
+            return Inertia::render('Patient/Wellness/Meditation');
+        })->name('patient.wellness.meditation');
+
+        Route::get('/stress', function () {
+            return Inertia::render('Patient/Wellness/Stress');
+        })->name('patient.wellness.stress');
+
+        Route::get('/journal', function () {
+            return Inertia::render('Patient/Wellness/Journal');
+        })->name('patient.wellness.journal');
+
+        Route::post('/journal/save', function () {
+            return back()->with('success', 'Journal entry saved successfully');
+        })->name('patient.wellness.journal.save');
+    });
     });
 
     // Routes pour les thérapeutes
@@ -137,6 +228,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('therapist.schedule');
         Route::get('/patients', [TherapistController::class, 'patients'])
             ->name('therapist.patients');
+
+        Route::get('/profile', [TherapistController::class, 'profile'])
+            ->name('therapist.profile');
+        Route::post('/profile/update', [TherapistController::class, 'updateProfile'])
+            ->name('therapist.profile.update');
     });
 
     // Routes pour les administrateurs
@@ -178,8 +274,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
+
 // Route de déconnexion
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
-

@@ -10,9 +10,21 @@ class Therapist extends Model
         'user_id',
         'specialty',
         'bio',
+        'license_number',
+        'hourly_rate',
+        'education',
+        'experience',
+        'is_verified',
         'status'
     ];
 
+    protected $casts = [
+        'availability' => 'array',
+        'is_verified' => 'boolean',
+        'hourly_rate' => 'decimal:2'
+    ];
+
+    // Vos relations restent identiques
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -28,6 +40,7 @@ class Therapist extends Model
         return $this->belongsToMany(Patient::class, 'appointments')
                     ->distinct();
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

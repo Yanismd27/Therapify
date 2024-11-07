@@ -1,0 +1,141 @@
+.Vue-Toastification__toast {
+  min-height: 48px !important;
+  padding: 12px 16px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08),
+              0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 10px !important;
+  border: none !important;
+}
+
+.Vue-Toastification__toast-body {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Success Toast */
+.Vue-Toastification__toast--success {
+  background: #F0FDF4 !important;
+  border-left: 4px solid #22C55E !important;
+}
+
+.Vue-Toastification__toast--success .custom-toast-icon svg {
+  color: #22C55E !important;
+}
+
+.Vue-Toastification__toast--success .Vue-Toastification__toast-body {
+  color: #15803D !important;
+}
+
+/* Error Toast */
+.Vue-Toastification__toast--error {
+  background: #FEF2F2 !important;
+  border-left: 4px solid #EF4444 !important;
+}
+
+.Vue-Toastification__toast--error .custom-toast-icon svg {
+  color: #EF4444 !important;
+}
+
+.Vue-Toastification__toast--error .Vue-Toastification__toast-body {
+  color: #B91C1C !important;
+}
+
+/* Warning Toast */
+.Vue-Toastification__toast--warning {
+  background: #FFFBEB !important;
+  border-left: 4px solid #F59E0B !important;
+}
+
+.Vue-Toastification__toast--warning .custom-toast-icon svg {
+  color: #F59E0B !important;
+}
+
+.Vue-Toastification__toast--warning .Vue-Toastification__toast-body {
+  color: #B45309 !important;
+}
+
+/* Info Toast */
+.Vue-Toastification__toast--info {
+  background: #EFF6FF !important;
+  border-left: 4px solid #3B82F6 !important;
+}
+
+.Vue-Toastification__toast--info .custom-toast-icon svg {
+  color: #3B82F6 !important;
+}
+
+.Vue-Toastification__toast--info .Vue-Toastification__toast-body {
+  color: #1D4ED8 !important;
+}
+
+/* Icon Styles */
+.custom-toast-icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Close Button */
+.Vue-Toastification__close-button {
+  position: relative !important;
+  top: 1px !important;
+  right: -4px !important;
+  padding: 0 !important;
+  opacity: 0.4 !important;
+  transition: all 0.15s ease !important;
+}
+
+.Vue-Toastification__close-button:hover {
+  opacity: 0.8 !important;
+}
+
+/* Container */
+.Vue-Toastification__container {
+  padding: 12px !important;
+  gap: 8px !important;
+}
+
+/* Animations */
+.Vue-Toastification__bounce-enter-active {
+  animation: toast-in 0.3s ease forwards;
+}
+
+.Vue-Toastification__bounce-leave-active {
+  animation: toast-out 0.3s ease forwards;
+}
+
+@keyframes toast-in {
+  0% {
+      opacity: 0;
+      transform: translateX(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+@keyframes toast-out {
+  0% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+  100% {
+      opacity: 0;
+      transform: translateX(20px);
+  }
+}
+
+/* Hide Progress Bar */
+.Vue-Toastification__progress-bar {
+  display: none !important;
+}

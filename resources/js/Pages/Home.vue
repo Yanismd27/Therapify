@@ -1,5 +1,7 @@
 <template>
-    <div class="min-h-screen bg-[#FAFAFA]">
+  <div class="min-h-screen flex flex-col bg-[#FAFAFA]">
+    <!-- Main Content Wrapper -->
+    <main class="flex-grow">
       <!-- Navigation -->
       <nav class="w-full py-6 px-6 lg:px-12">
         <div class="flex justify-between items-center">
@@ -54,7 +56,7 @@
         <!-- Mobile Menu -->
         <div 
           v-show="mobileMenuOpen"
-          class="lg:hidden absolute top-20 left-0 right-0 bg-white shadow-lg p-4 transition-all transform"
+          class="lg:hidden absolute top-20 left-0 right-0 bg-white shadow-lg p-4 transition-all transform z-50"
           :class="mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'"
         >
           <div class="space-y-4">
@@ -109,7 +111,7 @@
                 Find Your Therapist
               </Link>
               <Link
-                href="#how-it-works"
+                :href="route('how-it-works')"
                 class="px-8 py-4 bg-gray-100 text-gray-900 rounded-full hover:bg-gray-200 transition-all transform hover:scale-105"
               >
                 How It Works
@@ -118,7 +120,7 @@
           </div>
   
           <!-- Features Preview -->
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
             <div 
               v-for="(feature, index) in features"
               :key="feature.title"
@@ -137,54 +139,58 @@
           <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
         </div>
       </div>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import { Link } from '@inertiajs/vue3';
-  
-  const mobileMenuOpen = ref(false);
-  
-  const menuItems = [
+    </main>
+
+    <!-- Footer -->
+    <Footer />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import Footer from '@/Components/Footer.vue';
+
+const mobileMenuOpen = ref(false);
+
+const menuItems = [
   { text: 'Home', href: route('home') },
-  { text: 'Our Therapists', href: route('patient.therapists') }, // Changé
+  { text: 'Our Therapists', href: route('our-therapists') },
   { text: 'How it Works', href: route('how-it-works') },
-  // { text: 'Resources', href: route('resources') }, // Commenté car n'existe pas encore
 ];
-  
-  const features = [
-    {
-      icon: '👥',
-      title: 'Verified Therapists',
-      description: 'Connect with licensed and thoroughly vetted mental health professionals.'
-    },
-    {
-      icon: '📅',
-      title: 'Easy Scheduling',
-      description: 'Book and manage your therapy sessions with just a few clicks.'
-    },
-    {
-      icon: '🤖',
-      title: 'AI Support',
-      description: 'Get 24/7 assistance and guidance between your therapy sessions.'
-    }
-  ];
-  </script>
-  
-  <style>
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+
+const features = [
+  {
+    icon: '👥',
+    title: 'Verified Therapists',
+    description: 'Connect with licensed and thoroughly vetted mental health professionals.'
+  },
+  {
+    icon: '📅',
+    title: 'Easy Scheduling',
+    description: 'Book and manage your therapy sessions with just a few clicks.'
+  },
+  {
+    icon: '🤖',
+    title: 'AI Support',
+    description: 'Get 24/7 assistance and guidance between your therapy sessions.'
   }
-  
-  .animate-fadeIn {
-    animation: fadeIn 0.6s ease-out forwards;
-  }
-  
-  .animation-delay-200 { animation-delay: 200ms; }
-  .animation-delay-400 { animation-delay: 400ms; }
-  .animation-delay-600 { animation-delay: 600ms; }
-  .animation-delay-800 { animation-delay: 800ms; }
-  .animation-delay-1000 { animation-delay: 1000ms; }
-  </style>
+];
+</script>
+
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+.animation-delay-800 { animation-delay: 800ms; }
+.animation-delay-1000 { animation-delay: 1000ms; }
+</style>

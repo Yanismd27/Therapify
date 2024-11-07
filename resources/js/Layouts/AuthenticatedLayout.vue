@@ -4,7 +4,7 @@
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex items-center group">
-                    <Link :href="route('dashboard')" class="flex items-center space-x-3">
+                    <Link :href="homeRoute" class="flex items-center space-x-3">
                         <div class="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
                             <div class="h-6 w-6 bg-white rounded-full"></div>
                         </div>
@@ -14,30 +14,31 @@
 
                 <!-- Navigation -->
                 <div class="hidden lg:flex items-center space-x-10">
-                    <NavLink 
-                        v-for="item in navigationItems" 
+                    <Link
+                        v-for="item in filteredNavigation"
                         :key="item.text"
                         :href="item.href"
-                        :active="route().current(item.route)"
+                        class="inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200"
+                        :class="item.href === currentRoute ? 'text-purple-600 border-b-2 border-purple-600' : 'text-gray-600 hover:text-gray-900'"
                     >
                         {{ item.text }}
-                    </NavLink>
+                    </Link>
                 </div>
 
                 <!-- User Menu -->
-                <div class="flex items-center space-x-4">
+                <div v-if="user" class="flex items-center space-x-4">
                     <Dropdown align="right" width="48">
                         <template #trigger>
                             <button class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
-                                <span>{{ $page.props.auth.user.name }}</span>
+                                <span>{{ user.name }}</span>
                                 <div class="h-8 w-8 bg-purple-100 rounded-full flex items-center justify-center">
-                                    {{ $page.props.auth.user.name[0] }}
+                                    {{ user.name[0] }}
                                 </div>
                             </button>
                         </template>
 
                         <template #content>
-                            <DropdownLink :href="route('profile.edit')">
+                            <DropdownLink :href="profileRoute">
                                 Profile
                             </DropdownLink>
                             <DropdownLink :href="route('logout')" method="post" as="button">
@@ -57,46 +58,55 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
-import NavLink from '@/Components/NavLink.vue';
+import { Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
+import { computed } from 'vue';
 
 const page = usePage();
-const user = computed(() => page.props.auth.user);
 
-const navigationItems = computed(() => {
-    if (user.value.role === 'patient') {
-        return [
-            { text: 'Dashboard', href: route('patient.dashboard'), route: 'patient.dashboard' },
-            { text: 'Find Therapist', href: route('patient.therapists'), route: 'patient.therapists' },
-            { text: 'My Appointments', href: route('patient.appointments'), route: 'patient.appointments' }
-        ];
-    } else if (user.value.role === 'therapist') {
-        return [
-            { text: 'Dashboard', href: route('therapist.dashboard'), route: 'therapist.dashboard' },
-            { text: 'Appointments', href: route('therapist.appointments'), route: 'therapist.appointments' },
-            { text: 'Schedule', href: route('therapist.schedule'), route: 'therapist.schedule' }
-        ];
-    }
-    return [];
+const user = computed(() => page.props.auth?.user);
+const currentRoute = computed(() => window.location.pathname);
+
+const navigation = {
+    patient: [
+        { text: 'Dashboard', href: '/patient/dashboard' },
+        { text: 'Find Therapist', href: '/patient/therapists' },
+        { text: 'My Appointments', href: '/patient/appointments' }
+    ],
+    therapist: [
+        { text: 'Dashboard', href: '/therapist/dashboard' },
+        { text: 'Appointments', href: '/therapist/appointments' },
+        { text: 'Schedule', href: '/therapist/schedule' }
+    ]
+};
+
+const filteredNavigation = computed(() => {
+    if (!user.value) return [];
+    return navigation[user.value.role] || [];
+});
+
+const profileRoute = computed(() => {
+    if (!user.value) return '/';
+    return `/${user.value.role}/profile`;
+});
+
+const homeRoute = computed(() => {
+    if (!user.value) return '/';
+    return `/${user.value.role}/dashboard`;
 });
 </script>
-  
-  <style scoped>
-  .router-link-active {
-    @apply text-purple-600;
-  }
-  
-  .dropdown-enter-active,
-  .dropdown-leave-active {
+
+<style scoped>
+.dropdown-enter-active,
+.dropdown-leave-active {
     transition: all 0.3s ease;
-  }
-  
-  .dropdown-enter-from,
-  .dropdown-leave-to {
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
     opacity: 0;
     transform: translateY(-10px);
-  }
-  </style>
+}
+</style>

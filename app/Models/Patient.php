@@ -3,25 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Patient extends Model
 {
     protected $fillable = [
         'user_id',
+        'phone',
         'date_of_birth',
-        'medical_history',
-        'preferences'
+        'medical_conditions',
+        'medications',
+        'emergency_contact_name',
+        'emergency_contact_phone',
+        'emergency_contact_relationship',
+        'preferred_session_type',
+        'email_notifications',
+        'sms_notifications',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date',
-        'preferences' => 'array'
+        'email_notifications' => 'boolean',
+        'sms_notifications' => 'boolean',
     ];
 
-    // Relations
     public function user()
     {
         return $this->belongsTo(User::class);
