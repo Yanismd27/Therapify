@@ -2,8 +2,10 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "dev": "vite",
         "build": "vite build",
-        "dev": "vite"
+        "start": "php artisan serve --host=0.0.0.0 --port=$PORT",
+        "postinstall": "npm run build"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.2.0",
@@ -22,5 +24,9 @@
         "@heroicons/vue": "^2.1.5",
         "heroicons": "^2.1.5",
         "vue-toastification": "^2.0.0-rc.5"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=8.0.0"
     }
 }
