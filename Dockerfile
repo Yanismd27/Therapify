@@ -24,27 +24,19 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copier les fichiers de configuration d'abord
-COPY composer.json composer.lock package.json package-lock.json ./
-
-# Créer la structure de dossiers
-RUN mkdir -p /var/www/resources/js/Utils
-
-# Copier spécifiquement le fichier toast
-COPY resources/js/Utils/toast.js /var/www/resources/js/Utils/
-COPY resources/js/Utils/toast.css /var/www/resources/js/Utils/
-
-# Copier le reste du projet
+# Copier tout le projet
 COPY . .
 
-# Debug: Vérifier que le fichier existe
-RUN ls -la /var/www/resources/js/Utils/toast.js
+# Vérifier que les fichiers sont bien copiés
+RUN ls -la /var/www/resources/js/Utils/
 
 # Copy .env file
 COPY .env.example .env
 
 # Install dependencies
 RUN composer install --no-dev --no-interaction --prefer-dist
+
+# Install NPM dependencies
 RUN npm install
 
 # Build assets
