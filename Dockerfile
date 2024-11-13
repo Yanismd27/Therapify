@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm
+    npm \
+    tree # Ajout de tree pour voir la structure des dossiers
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -24,13 +25,30 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copier TOUT le projet d'abord
+# Copier tout le projet
 COPY . .
 
-# Installer les dépendances composer
-RUN composer install --no-dev --no-interaction --prefer-dist
+# Debugging: Afficher la structure des dossiers
+RUN echo "=== Contenu du dossier resources/js ==="
+RUN ls -la /var/www/resources/js/
+RUN echo "=== Contenu du dossier resources/js/Utils (s'il existe) ==="
+RUN ls -la /var/www/resources/js/Utils/ || echo "Dossier Utils non trouvé"
+RUN echo "=== Structure complète de resources/js ==="
+RUN tree /var/www/resources/js/
 
-# Installer les dépendances npm
+# Create Utils directory if it doesn't exist
+RUN mkdir -p /var/www/resources/js/Utils
+
+# Copy toast files explicitly
+COPY resources/js/utils/toast.js /var/www/resources/js/Utils/
+COPY resources/js/utils/toast.css /var/www/resources/js/Utils/
+
+# Verify the files are copied
+RUN echo "=== Contenu après copie explicite ==="
+RUN ls -la /var/www/resources/js/Utils/
+
+# Install dependencies
+RUN composer install --no-dev --no-interaction --prefer-dist
 RUN npm install
 
 # Build assets
