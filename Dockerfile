@@ -24,11 +24,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+# Créer la structure de dossiers nécessaire
+RUN mkdir -p /var/www/resources/js/Utils
+
 # Copier tout le projet
 COPY . .
 
-# Vérifier que les fichiers sont bien copiés
-RUN ls -la /var/www/resources/js/Utils/
+# Debug: Afficher la structure avant l'installation
+RUN echo "=== Structure des dossiers ===" && \
+    ls -R /var/www/resources/js/ && \
+    echo "=== Contenu du dossier Utils ===" && \
+    ls -la /var/www/resources/js/Utils/
 
 # Copy .env file
 COPY .env.example .env
@@ -38,6 +44,10 @@ RUN composer install --no-dev --no-interaction --prefer-dist
 
 # Install NPM dependencies
 RUN npm install
+
+# Debug: Vérifier les fichiers node_modules
+RUN echo "=== Node modules installés ===" && \
+    ls -la /var/www/node_modules/
 
 # Build assets
 RUN npm run build
