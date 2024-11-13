@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import path from 'path'; // Ajoutez cette ligne au début
 
 export default defineConfig({
     plugins: [
@@ -17,11 +18,26 @@ export default defineConfig({
             },
         }),
     ],
-    assetsInclude: ['**/*.mp3'], // Ajout de cette ligne pour gérer les fichiers mp3
+    assetsInclude: ['**/*.mp3'],
     resolve: {
         alias: {
-            '@': '/resources/js',
-            'ziggy': '/vendor/tightenco/ziggy/src/js',
+            '@': path.resolve(__dirname, './resources/js'),
+            '~': path.resolve(__dirname, './resources/js'),
+            'ziggy': path.resolve(__dirname, './vendor/tightenco/ziggy/src/js'),
+            'vue': 'vue/dist/vue.esm-bundler.js',
+        },
+    },
+    optimizeDeps: {
+        include: ['vue', '@inertiajs/vue3', 'vue-toastification'],
+    },
+    build: {
+        chunkSizeWarningLimit: 1600,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['vue', '@inertiajs/vue3', 'vue-toastification'],
+                },
+            },
         },
     },
 });
