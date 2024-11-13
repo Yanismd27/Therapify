@@ -1,17 +1,3 @@
-FROM composer:latest AS composer
-WORKDIR /app
-COPY composer.* ./
-COPY . .
-RUN composer install --no-dev --no-interaction --prefer-dist
-
-FROM node:20-alpine AS node
-WORKDIR /app
-COPY package*.json ./
-COPY --from=composer /app/vendor ./vendor
-COPY . .
-RUN npm install --legacy-peer-deps
-RUN npm run build
-
 FROM php:8.2-fpm-alpine
 
 # Install system dependencies
@@ -21,23 +7,39 @@ RUN apk add --no-cache \
     libpng-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    nodejs \
+    npm \
+    $PHPIZE_DEPS
 
-# PHP Extensions
+# Install PHP extensions
 RUN docker-php-ext-install pdo_mysql bcmath gd
 
-# Copy composer
+# Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy from previous stages
-COPY --from=composer /app/vendor ./vendor
-COPY --from=node /app/public/build ./public/build
+# Copy composer files
+COPY composer.* ./
+
+# Install Composer dependencies
+RUN composer install --no-dev --no-interaction --prefer-dist
+
+# Copy package files and install npm dependencies
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copy the rest of the application
 COPY . .
 
-# Set environment
+# Build assets
+RUN npm run build
+
+# Copy .env file
 COPY .env.example .env
+
+# Generate key
 RUN php artisan key:generate --force
 
 # Set permissions

@@ -4,8 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "start": "php artisan serve --host=0.0.0.0 --port=$PORT",
-        "postinstall": "npm run build"
+        "serve": "php artisan serve --host=0.0.0.0 --port=$PORT"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.2.0",
@@ -15,7 +14,6 @@
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.0",
-        "path": "^0.12.7",
         "postcss": "^8.4.31",
         "tailwindcss": "^3.2.1",
         "vite": "^5.0",
@@ -24,10 +22,11 @@
     "dependencies": {
         "@heroicons/vue": "^2.1.5",
         "heroicons": "^2.1.5",
+        "path": "^0.12.7",
         "vue-toastification": "^2.0.0-rc.5"
     },
     "engines": {
-        "node": ">=18.0.0",
-        "npm": ">=8.0.0"
+        "node": "20.x",
+        "npm": "10.x"
     }
 }
