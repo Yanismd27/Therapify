@@ -1,11 +1,15 @@
-FROM node:20-alpine as node-builder
+FROM composer:latest AS composer
+WORKDIR /app
+COPY composer.* ./
+COPY . .
+RUN composer install --no-dev --no-interaction --prefer-dist
+
+FROM node:20-alpine AS node
 WORKDIR /app
 COPY package*.json ./
-COPY resources/ resources/
-COPY public/ public/
-COPY vite.config.js ./
-RUN npm install
+COPY --from=composer /app/vendor ./vendor
 COPY . .
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 FROM php:8.2-fpm-alpine
@@ -17,25 +21,20 @@ RUN apk add --no-cache \
     libpng-dev \
     libxml2-dev \
     zip \
-    unzip \
-    nodejs \
-    npm
+    unzip
 
 # PHP Extensions
 RUN docker-php-ext-install pdo_mysql bcmath gd
 
-# Install composer
+# Copy composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy composer files
-COPY composer.* ./
-RUN composer install --no-dev --no-interaction --prefer-dist
-
-# Copy application files
+# Copy from previous stages
+COPY --from=composer /app/vendor ./vendor
+COPY --from=node /app/public/build ./public/build
 COPY . .
-COPY --from=node-builder /app/public/build public/build
 
 # Set environment
 COPY .env.example .env

@@ -20,20 +20,11 @@ export default defineConfig({
     ],
     assetsInclude: ['**/*.mp3'],
     resolve: {
-        alias: [
-            {
-                find: '@',
-                replacement: path.resolve(__dirname, 'resources/js')
-            },
-            {
-                find: '~',
-                replacement: path.resolve(__dirname, 'resources/js')
-            },
-            {
-                find: 'ziggy',
-                replacement: path.resolve(__dirname, 'vendor/tightenco/ziggy/src/js')
-            }
-        ]
+        alias: {
+            '@': path.resolve(__dirname, './resources/js'),
+            '~': path.resolve(__dirname, './resources/js'),
+            ziggy: path.resolve(__dirname, './vendor/tightenco/ziggy/dist')
+        }
     },
     optimizeDeps: {
         include: ['vue', '@inertiajs/vue3', 'vue-toastification'],
