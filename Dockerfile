@@ -24,33 +24,34 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Créer la structure de dossiers nécessaire
-RUN mkdir -p /var/www/resources/js/Utils
+# Copier d'abord les fichiers essentiels
+COPY composer.json composer.lock package.json package-lock.json ./
+COPY resources/ ./resources/
 
-# Copier tout le projet
+# Debug: Vérifier la structure après la copie des resources
+RUN echo "=== Vérification des fichiers initiaux ===" && \
+    ls -la /var/www/resources/js/Utils/ || echo "Utils directory not found"
+
+# Copier le reste du projet
 COPY . .
 
-# Debug: Afficher la structure avant l'installation
-RUN echo "=== Structure des dossiers ===" && \
-    ls -R /var/www/resources/js/ && \
-    echo "=== Contenu du dossier Utils ===" && \
-    ls -la /var/www/resources/js/Utils/
-
-# Copy .env file
-COPY .env.example .env
+# Debug: Vérifier à nouveau après la copie complète
+RUN echo "=== Vérification après copie complète ===" && \
+    ls -la /var/www/resources/js/Utils/ || echo "Utils directory still not found"
 
 # Install dependencies
 RUN composer install --no-dev --no-interaction --prefer-dist
-
-# Install NPM dependencies
 RUN npm install
 
-# Debug: Vérifier les fichiers node_modules
-RUN echo "=== Node modules installés ===" && \
-    ls -la /var/www/node_modules/
+# Debug: Vérifier après l'installation des dépendances
+RUN echo "=== Vérification après npm install ===" && \
+    ls -la /var/www/resources/js/Utils/ || echo "Utils directory missing after install"
 
 # Build assets
 RUN npm run build
+
+# Copy .env file
+COPY .env.example .env
 
 # Generate key
 RUN php artisan key:generate --force

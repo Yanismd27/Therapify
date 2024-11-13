@@ -1,7 +1,7 @@
 import { useToast as useVueToast } from 'vue-toastification';
 import { h } from 'vue';
 import 'vue-toastification/dist/index.css'; 
-import '@/Utils/toast.css';
+import './toast.css'; 
 
 const commonStyles = {
     toastClassName: 'custom-toast',
