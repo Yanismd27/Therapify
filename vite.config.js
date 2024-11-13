@@ -22,13 +22,30 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
-            ziggy$: path.resolve(__dirname, './vendor/tightenco/ziggy/dist/vue.es.js')
+            '~': path.resolve(__dirname, './resources/js'),
+            'ziggy': path.resolve(__dirname, './vendor/tightenco/ziggy/dist/vue.es.js'),
+            'vue': 'vue/dist/vue.esm-bundler.js',
         }
     },
+    optimizeDeps: {
+        include: [
+            'vue', 
+            '@inertiajs/vue3', 
+            'vue-toastification',
+            'ziggy'
+        ]
+    },
     build: {
+        chunkSizeWarningLimit: 1600,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['vue', '@inertiajs/vue3', 'vue-toastification'],
+                }
+            }
+        },
         commonjsOptions: {
             include: [/ziggy/, /node_modules/]
-        },
-        chunkSizeWarningLimit: 1600
+        }
     }
 });
