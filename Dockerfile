@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm
+    npm \
+    tree
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -24,34 +25,42 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copier d'abord les fichiers essentiels
-COPY composer.json composer.lock package.json package-lock.json ./
-COPY resources/ ./resources/
+# Créer la structure explicitement
+RUN mkdir -p /var/www/resources/js/Utils
 
-# Debug: Vérifier la structure après la copie des resources
-RUN echo "=== Vérification des fichiers initiaux ===" && \
-    ls -la /var/www/resources/js/Utils/ || echo "Utils directory not found"
+# Copier le projet en plusieurs étapes
+COPY resources/js/Utils/toast.js /var/www/resources/js/Utils/
+COPY resources/js/Utils/toast.css /var/www/resources/js/Utils/
+
+# Debug: Vérifier les fichiers copiés
+RUN echo "=== Contenu de /var/www/resources/js/Utils ===" && \
+    ls -la /var/www/resources/js/Utils/
 
 # Copier le reste du projet
 COPY . .
 
-# Debug: Vérifier à nouveau après la copie complète
+# Debug: Vérifier que les fichiers sont toujours là
 RUN echo "=== Vérification après copie complète ===" && \
-    ls -la /var/www/resources/js/Utils/ || echo "Utils directory still not found"
-
-# Install dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist
-RUN npm install
-
-# Debug: Vérifier après l'installation des dépendances
-RUN echo "=== Vérification après npm install ===" && \
-    ls -la /var/www/resources/js/Utils/ || echo "Utils directory missing after install"
-
-# Build assets
-RUN npm run build
+    ls -la /var/www/resources/js/Utils/
 
 # Copy .env file
 COPY .env.example .env
+
+# Install dependencies
+RUN composer install --no-dev --no-interaction --prefer-dist
+
+# Debug: Vérifier avant npm install
+RUN echo "=== Vérification avant npm install ===" && \
+    ls -la /var/www/resources/js/Utils/
+
+RUN npm install
+
+# Debug: Vérifier après npm install
+RUN echo "=== Vérification après npm install ===" && \
+    ls -la /var/www/resources/js/Utils/
+
+# Build assets
+RUN npm run build
 
 # Generate key
 RUN php artisan key:generate --force
