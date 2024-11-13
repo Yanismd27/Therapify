@@ -1,14 +1,14 @@
 FROM php:8.2-fpm-alpine
 
-# Install system dependencies and nginx
+# Install dependencies
 RUN apk add --no-cache \
     nginx \
     git \
     curl \
-    libpng-dev \
-    libxml2-dev \
     zip \
-    unzip
+    unzip \
+    libpng-dev \
+    libxml2-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql bcmath gd
@@ -18,35 +18,37 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy composer files first
-COPY composer.* ./
-
-# Install composer dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts
-
-# Copy application files
+# Copy everything
 COPY . .
 
-# Configure nginx
-COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader
+RUN chmod -R 775 storage bootstrap/cache
 
-# Create necessary directories and set permissions
-RUN mkdir -p /var/www/storage/framework/{sessions,views,cache} \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-
-# Copy and set up environment file
-COPY .env.production .env
+# Configure environment
+RUN cp .env.example .env
 RUN php artisan key:generate --force
 
-# Create start script
-RUN echo '#!/bin/sh' > /start.sh \
-    && echo 'php artisan config:cache' >> /start.sh \
-    && echo 'php artisan route:cache' >> /start.sh \
-    && echo 'php artisan view:cache' >> /start.sh \
-    && echo 'php-fpm &' >> /start.sh \
-    && echo 'nginx -g "daemon off;"' >> /start.sh \
-    && chmod +x /start.sh
+# Nginx config
+RUN echo 'server { \n\
+    listen 80; \n\
+    root /var/www/public; \n\
+    index index.php; \n\
+    location / { \n\
+        try_files $uri $uri/ /index.php?$query_string; \n\
+    } \n\
+    location ~ \.php$ { \n\
+        fastcgi_pass 127.0.0.1:9000; \n\
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
+        include fastcgi_params; \n\
+    } \n\
+}' > /etc/nginx/http.d/default.conf
+
+# Start script
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'php-fpm &' >> /start.sh && \
+    echo 'nginx -g "daemon off;"' >> /start.sh && \
+    chmod +x /start.sh
 
 EXPOSE 80
 
