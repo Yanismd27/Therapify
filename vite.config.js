@@ -23,17 +23,12 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
             '~': path.resolve(__dirname, './resources/js'),
-            'ziggy': path.resolve(__dirname, './vendor/tightenco/ziggy/dist/vue.es.js'),
+            'ziggy': path.resolve(__dirname, 'vendor/tightenco/ziggy/dist/index.js'),
             'vue': 'vue/dist/vue.esm-bundler.js',
-        }
+        },
     },
     optimizeDeps: {
-        include: [
-            'vue', 
-            '@inertiajs/vue3', 
-            'vue-toastification',
-            'ziggy'
-        ]
+        include: ['vue', '@inertiajs/vue3', 'vue-toastification'],
     },
     build: {
         chunkSizeWarningLimit: 1600,
@@ -41,11 +36,8 @@ export default defineConfig({
             output: {
                 manualChunks: {
                     vendor: ['vue', '@inertiajs/vue3', 'vue-toastification'],
-                }
-            }
+                },
+            },
         },
-        commonjsOptions: {
-            include: [/ziggy/, /node_modules/]
-        }
-    }
+    },
 });
