@@ -261,7 +261,7 @@ import { ref, computed, onMounted } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Modal from '@/Components/Modal.vue';
-import toast from '@/Utils/toast';
+import toast from '@/Utils/toast.js';
 
 const props = defineProps({
   therapists: {
@@ -422,4 +422,5 @@ const confirmBooking = () => {
 .animate-pulse {
   animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
 </style>

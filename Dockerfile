@@ -24,14 +24,26 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy application files
+# Copier d'abord les fichiers de configuration
+COPY package*.json ./
+COPY composer.json composer.lock ./
+COPY vite.config.js ./
+
+# Installer les dépendances avant de copier le reste des fichiers
+RUN composer install --no-dev --no-interaction --prefer-dist
+RUN npm install
+
+# Copier le reste du projet
 COPY . .
 
-# Install Composer dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist
+# S'assurer que les répertoires existent
+RUN mkdir -p /var/www/resources/js/Utils
+RUN mkdir -p /var/www/public/build
 
-# Install NPM dependencies and build assets
-RUN npm install
+# Vérifier si les fichiers sont bien copiés
+RUN ls -la /var/www/resources/js/Utils/
+
+# Build assets
 RUN npm run build
 
 # Copy environment file
@@ -41,11 +53,4 @@ COPY .env.example .env
 RUN php artisan key:generate
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/storage
-RUN chmod -R 775 /var/www/storage
-
-# Expose port
-EXPOSE 8000
-
-# Start the application
-CMD php artisan serve --host=0.0.0.0 --port=8000
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
