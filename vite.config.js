@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
-import path from 'path'; // Ajoutez cette ligne au début
+import path from 'path';
 
 export default defineConfig({
     plugins: [
@@ -20,12 +20,20 @@ export default defineConfig({
     ],
     assetsInclude: ['**/*.mp3'],
     resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './resources/js'),
-            '~': path.resolve(__dirname, './resources/js'),
-            'ziggy': path.resolve(__dirname, './vendor/tightenco/ziggy/src/js'),
-            'vue': 'vue/dist/vue.esm-bundler.js',
-        },
+        alias: [
+            {
+                find: '@',
+                replacement: path.resolve(__dirname, 'resources/js')
+            },
+            {
+                find: '~',
+                replacement: path.resolve(__dirname, 'resources/js')
+            },
+            {
+                find: 'ziggy',
+                replacement: path.resolve(__dirname, 'vendor/tightenco/ziggy/src/js')
+            }
+        ]
     },
     optimizeDeps: {
         include: ['vue', '@inertiajs/vue3', 'vue-toastification'],
