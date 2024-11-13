@@ -10,41 +10,38 @@ RUN apk add --no-cache \
     unzip \
     nodejs \
     npm \
-    $PHPIZE_DEPS
+    ${PHPIZE_DEPS} \
+    oniguruma-dev \
+    libzip-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql bcmath gd
+RUN docker-php-ext-install pdo_mysql bcmath gd zip mbstring xml
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy composer files
-COPY composer.* ./
-
-# Install Composer dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist
-
-# Copy package files and install npm dependencies
-COPY package*.json ./
-RUN npm install --legacy-peer-deps
-
-# Copy the rest of the application
+# Copy entire project
 COPY . .
 
-# Build assets
+# Create required directories and set permissions
+RUN mkdir -p bootstrap/cache storage/framework/{sessions,views,cache}
+RUN chmod -R 775 storage bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+# Install Composer dependencies
+RUN composer install --no-dev --no-interaction --optimize-autoloader
+
+# Install NPM dependencies and build assets
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
-# Copy .env file
-COPY .env.example .env
+# Copy environment file
+RUN cp .env.example .env
 
-# Generate key
+# Generate application key
 RUN php artisan key:generate --force
-
-# Set permissions
-RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8000
 
