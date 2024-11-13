@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nodejs \
     npm \
-    tree # Ajout de tree pour voir la structure des dossiers
+    tree
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -28,13 +28,12 @@ WORKDIR /var/www
 # Copier tout le projet
 COPY . .
 
-# Debugging: Afficher la structure des dossiers
-RUN echo "=== Contenu du dossier resources/js ==="
-RUN ls -la /var/www/resources/js/
-RUN echo "=== Contenu du dossier resources/js/Utils (s'il existe) ==="
-RUN ls -la /var/www/resources/js/Utils/ || echo "Dossier Utils non trouvé"
-RUN echo "=== Structure complète de resources/js ==="
-RUN tree /var/www/resources/js/
+# Copier et renommer le .env.example en .env
+COPY .env.example .env
+
+# Install dependencies
+RUN composer install --no-dev --no-interaction --prefer-dist
+RUN npm install
 
 # Create Utils directory if it doesn't exist
 RUN mkdir -p /var/www/resources/js/Utils
@@ -43,19 +42,11 @@ RUN mkdir -p /var/www/resources/js/Utils
 COPY resources/js/utils/toast.js /var/www/resources/js/Utils/
 COPY resources/js/utils/toast.css /var/www/resources/js/Utils/
 
-# Verify the files are copied
-RUN echo "=== Contenu après copie explicite ==="
-RUN ls -la /var/www/resources/js/Utils/
-
-# Install dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist
-RUN npm install
-
 # Build assets
 RUN npm run build
 
-# Generate application key
-RUN php artisan key:generate
+# Generate application key (avec --force pour éviter les problèmes de fichier .env)
+RUN php artisan key:generate --force
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
