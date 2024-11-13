@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nodejs \
-    npm \
-    tree
+    npm
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -25,27 +24,33 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copier tout le projet
+# Copier les fichiers de configuration d'abord
+COPY composer.json composer.lock package.json package-lock.json ./
+
+# Créer la structure de dossiers
+RUN mkdir -p /var/www/resources/js/Utils
+
+# Copier spécifiquement le fichier toast
+COPY resources/js/Utils/toast.js /var/www/resources/js/Utils/
+COPY resources/js/Utils/toast.css /var/www/resources/js/Utils/
+
+# Copier le reste du projet
 COPY . .
 
-# Copier et renommer le .env.example en .env
+# Debug: Vérifier que le fichier existe
+RUN ls -la /var/www/resources/js/Utils/toast.js
+
+# Copy .env file
 COPY .env.example .env
 
 # Install dependencies
 RUN composer install --no-dev --no-interaction --prefer-dist
 RUN npm install
 
-# Create Utils directory if it doesn't exist
-RUN mkdir -p /var/www/resources/js/Utils
-
-# Copy toast files explicitly
-COPY resources/js/utils/toast.js /var/www/resources/js/Utils/
-COPY resources/js/utils/toast.css /var/www/resources/js/Utils/
-
 # Build assets
 RUN npm run build
 
-# Generate application key (avec --force pour éviter les problèmes de fichier .env)
+# Generate key
 RUN php artisan key:generate --force
 
 # Set permissions
