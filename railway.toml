@@ -1,0 +1,14 @@
+[build]
+builder = "nixpacks"
+buildCommand = "composer install && npm install && npm run build"
+
+[deploy]
+startCommand = "php artisan serve"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+numReplicas = 1
+
+[deploy.envs]
+APP_ENV = "production"
+APP_URL = "https://${RAILWAY_STATIC_URL}"

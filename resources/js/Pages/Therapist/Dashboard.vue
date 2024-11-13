@@ -3,10 +3,9 @@
   
     <AuthenticatedLayout>
       <div class="min-h-screen bg-[#FAFAFA]">
-        <!-- Stats Section -->
+
         <div class="max-w-[1400px] mx-auto px-6 lg:px-12 pt-12">
           <div class="relative">
-            <!-- Welcome Section -->
             <div class="max-w-3xl mx-auto text-center mb-16">
               <h1 class="text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-gray-900 mb-4">
                 Welcome Back,
@@ -21,8 +20,7 @@
                 Here's an overview of your therapy practice and upcoming sessions.
               </p>
             </div>
-  
-            <!-- Stats Grid -->
+
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               <div v-for="stat in stats" :key="stat.title" 
                    class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
@@ -41,10 +39,8 @@
                 <p class="text-gray-600">{{ stat.title }}</p>
               </div>
             </div>
-  
-            <!-- Main Content Grid -->
+
             <div class="grid lg:grid-cols-3 gap-8">
-              <!-- Today's Sessions -->
               <div class="lg:col-span-2">
                 <div class="bg-white rounded-xl shadow-sm p-6">
                   <div class="flex justify-between items-center mb-6">
@@ -98,9 +94,9 @@
                 </div>
               </div>
   
-              <!-- Quick Actions -->
+       
               <div class="space-y-6">
-                <!-- Profile Completion -->
+
                 <div class="bg-white rounded-xl shadow-sm p-6">
                   <h2 class="text-lg font-semibold mb-4">Profile Completion</h2>
                   <div class="mb-4">
@@ -123,7 +119,6 @@
                   </Link>
                 </div>
   
-                <!-- Quick Actions -->
                 <div class="bg-white rounded-xl shadow-sm p-6">
                   <h2 class="text-lg font-semibold mb-4">Quick Actions</h2>
                   <div class="space-y-3">
@@ -144,7 +139,6 @@
               </div>
             </div>
   
-            <!-- Background Effects -->
             <div class="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-purple-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
             <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
           </div>
@@ -162,7 +156,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 
-// Données statiques pour la démo
 const stats = [
   { title: 'Total Patients', value: '48', trend: 12, icon: '👥' },
   { title: 'Sessions This Week', value: '24', trend: 8, icon: '📅' },

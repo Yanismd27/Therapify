@@ -4,10 +4,8 @@
     <AuthenticatedLayout>
         <div class="min-h-screen bg-[#FAFAFA] py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Profile Header Card -->
                 <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
                     <div class="flex items-center space-x-6">
-                        <!-- Avatar -->
                         <div class="h-24 w-24 bg-blue-100 rounded-full flex items-center justify-center text-2xl font-bold text-blue-600">
                             {{ user?.name?.charAt(0) ?? '' }}
                         </div>
@@ -18,11 +16,9 @@
                     </div>
                 </div>
 
-                <!-- Main Content Grid -->
+                
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Column - Personal Information -->
                     <div class="lg:col-span-2 space-y-6">
-                        <!-- Personal Information Card -->
                         <div class="bg-white rounded-xl shadow-sm p-6">
                             <h2 class="text-xl font-semibold mb-6">Personal Information</h2>
                             <div class="space-y-4">
@@ -64,7 +60,7 @@
                             </div>
                         </div>
 
-                        <!-- Medical History Card -->
+                        
                         <div class="bg-white rounded-xl shadow-sm p-6">
                             <h2 class="text-xl font-semibold mb-6">Medical History</h2>
                             <div class="space-y-4">
@@ -91,9 +87,8 @@
                         </div>
                     </div>
 
-                    <!-- Right Column - Additional Information -->
                     <div class="space-y-6">
-                        <!-- Emergency Contact Card -->
+                        
                         <div class="bg-white rounded-xl shadow-sm p-6">
                             <h2 class="text-xl font-semibold mb-6">Emergency Contact</h2>
                             <div class="space-y-4">
@@ -126,7 +121,6 @@
                             </div>
                         </div>
 
-                        <!-- Preferences Card -->
                         <div class="bg-white rounded-xl shadow-sm p-6">
                             <h2 class="text-xl font-semibold mb-6">Preferences</h2>
                             <div class="space-y-4">
@@ -158,7 +152,6 @@
                             </div>
                         </div>
 
-                        <!-- Save Button -->
                         <button 
                             @click="updateProfile"
                             class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

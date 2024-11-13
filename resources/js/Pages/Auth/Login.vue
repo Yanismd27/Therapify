@@ -1,9 +1,9 @@
 <template>
     <div class="min-h-screen bg-[#FAFAFA] flex">
-      <!-- Left Side - Form -->
+     
       <div class="w-full lg:w-1/2 p-8 lg:p-12 flex items-center justify-center">
         <div class="w-full max-w-md">
-          <!-- Logo -->
+         
           <div class="flex items-center mb-12">
             <div class="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center">
               <div class="h-6 w-6 bg-white rounded-full"></div>
@@ -14,13 +14,13 @@
           <h1 class="text-3xl font-bold mb-2">Welcome back</h1>
           <p class="text-gray-600 mb-8">Please enter your details to sign in</p>
   
-          <!-- Status Message -->
+         
           <div v-if="status" class="mb-4 p-4 bg-green-50 rounded-xl text-green-600">
             {{ status }}
           </div>
   
           <form @submit.prevent="submit" class="space-y-6">
-            <!-- Email Input -->
+          
             <div>
               <InputLabel for="email" value="Email Address" class="text-gray-700 font-medium" />
               <TextInput
@@ -35,7 +35,6 @@
               <InputError class="mt-2" :message="form.errors.email" />
             </div>
   
-            <!-- Password Input -->
             <div>
               <div class="flex items-center justify-between">
                 <InputLabel for="password" value="Password" class="text-gray-700 font-medium" />
@@ -57,13 +56,13 @@
               <InputError class="mt-2" :message="form.errors.password" />
             </div>
   
-            <!-- Remember Me -->
+         
             <div class="flex items-center">
               <Checkbox name="remember" v-model:checked="form.remember" class="text-purple-600 focus:ring-purple-500" />
               <span class="ml-2 text-sm text-gray-600">Remember me</span>
             </div>
   
-            <!-- Submit Button -->
+            
             <button
               type="submit"
               :disabled="form.processing"
@@ -72,7 +71,6 @@
               Sign in
             </button>
   
-            <!-- Register Link -->
             <div class="text-center text-gray-600">
               Don't have an account?
               <Link :href="route('register')" class="text-purple-600 font-medium hover:text-purple-700">
@@ -83,7 +81,7 @@
         </div>
       </div>
   
-      <!-- Right Side - Features -->
+  
       <div class="hidden lg:block w-1/2 bg-gray-50 p-12">
         <div class="h-full rounded-2xl bg-white p-8 shadow-lg">
           <div class="mb-8">
@@ -91,9 +89,9 @@
             <p class="text-gray-600">Access your therapy sessions and resources in one place</p>
           </div>
   
-                 <!-- Feature Cards -->
+                 
                  <div class="space-y-6">
-            <!-- Upcoming Session Card -->
+            
             <div class="bg-gray-50 rounded-xl p-6">
               <div class="flex items-center justify-between mb-4">
                 <h3 class="font-semibold">Next Session</h3>
@@ -108,7 +106,6 @@
               </div>
             </div>
   
-            <!-- Resources Card -->
             <div class="bg-gray-50 rounded-xl p-6">
               <div class="flex items-center justify-between mb-4">
                 <h3 class="font-semibold">Resources</h3>
@@ -119,7 +116,7 @@
               </p>
             </div>
   
-            <!-- Progress Card -->
+           
             <div class="bg-purple-50 rounded-xl p-6">
               <h3 class="font-semibold mb-2">Your Progress</h3>
               <div class="flex items-center">

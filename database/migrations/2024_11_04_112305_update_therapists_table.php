@@ -8,26 +8,29 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            if (!Schema::hasColumn('appointments', 'type')) {
-                $table->string('type')->default('video')->after('notes');
-            }
-            if (!Schema::hasColumn('appointments', 'cancelled_at')) {
-                $table->timestamp('cancelled_at')->nullable();
-            }
-            if (!Schema::hasColumn('appointments', 'completed_at')) {
-                $table->timestamp('completed_at')->nullable();
-            }
-            if (!Schema::hasColumn('appointments', 'cancellation_reason')) {
-                $table->string('cancellation_reason')->nullable();
-            }
+        Schema::table('therapists', function (Blueprint $table) {
+            $table->string('specialty')->nullable();
+            $table->text('bio')->nullable();
+            $table->decimal('rating', 2, 1)->nullable();
+            $table->integer('experience')->nullable();
+            $table->json('tags')->nullable();
+            $table->enum('status', ['active', 'inactive', 'pending'])->default('pending');
+            $table->json('available_slots')->nullable();
         });
     }
 
     public function down()
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->dropColumn(['type', 'cancelled_at', 'completed_at', 'cancellation_reason']);
+        Schema::table('therapists', function (Blueprint $table) {
+            $table->dropColumn([
+                'specialty',
+                'bio',
+                'rating',
+                'experience',
+                'tags',
+                'status',
+                'available_slots'
+            ]);
         });
     }
 };

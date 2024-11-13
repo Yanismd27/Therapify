@@ -1,8 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col bg-[#FAFAFA]">
-    <!-- Main Content Wrapper -->
     <main class="flex-grow">
-      <!-- Navigation -->
       <nav class="w-full py-6 px-6 lg:px-12">
         <div class="flex justify-between items-center">
           <!-- Logo -->
@@ -41,7 +39,6 @@
             </Link>
           </div>
   
-          <!-- Mobile Menu Button -->
           <button 
             @click="mobileMenuOpen = !mobileMenuOpen"
             class="lg:hidden"
@@ -52,8 +49,7 @@
             </svg>
           </button>
         </div>
-  
-        <!-- Mobile Menu -->
+
         <div 
           v-show="mobileMenuOpen"
           class="lg:hidden absolute top-20 left-0 right-0 bg-white shadow-lg p-4 transition-all transform z-50"
@@ -85,17 +81,17 @@
         </div>
       </nav>
   
-      <!-- Hero Section -->
+
       <div class="max-w-[1400px] mx-auto px-6 lg:px-12 pt-12">
         <div class="relative">
-          <!-- Hero Content -->
+
           <div class="max-w-3xl mx-auto text-center mb-16">
             <h1 class="text-5xl lg:text-7xl font-bold leading-tight tracking-tight text-gray-900 mb-8">
               Find Your Perfect
               <span class="relative">
                 <span class="text-purple-600">Match</span>
                 <svg class="absolute -bottom-2 left-0 w-full h-2 text-purple-200" viewBox="0 0 100 10">
-                  <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <path class="wavy-path" d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" stroke-width="2"/>
                 </svg>
               </span>
               in Mental Health Care
@@ -119,7 +115,6 @@
             </div>
           </div>
   
-          <!-- Features Preview -->
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
             <div 
               v-for="(feature, index) in features"
@@ -134,7 +129,6 @@
             </div>
           </div>
   
-          <!-- Background Effects -->
           <div class="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-purple-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
           <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
         </div>
@@ -179,6 +173,27 @@ const features = [
 </script>
 
 <style>
+@keyframes waveFloat {
+  0% {
+    d: path("M0 5 Q 25 3, 50 5 T 100 5");
+  }
+  25% {
+    d: path("M0 5 Q 25 7, 50 5 T 100 5");
+  }
+  50% {
+    d: path("M0 5 Q 25 6, 50 4 T 100 5");
+  }
+  75% {
+    d: path("M0 5 Q 25 4, 50 6 T 100 5");
+  }
+  100% {
+    d: path("M0 5 Q 25 3, 50 5 T 100 5");
+  }
+}
+
+.wavy-path {
+  animation: waveFloat 3s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+}
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }

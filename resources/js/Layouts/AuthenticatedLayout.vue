@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-[#FAFAFA]">
         <nav class="w-full py-6 px-6 lg:px-12 bg-white shadow-sm">
             <div class="flex justify-between items-center">
-                <!-- Logo -->
+                
                 <div class="flex items-center group">
                     <Link :href="homeRoute" class="flex items-center space-x-3">
                         <div class="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
@@ -12,7 +12,6 @@
                     </Link>
                 </div>
 
-                <!-- Navigation -->
                 <div class="hidden lg:flex items-center space-x-10">
                     <Link
                         v-for="item in filteredNavigation"

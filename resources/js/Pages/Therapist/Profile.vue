@@ -41,11 +41,11 @@ const submit = () => {
 
     <AuthenticatedLayout>
         <div class="min-h-screen bg-[#FAFAFA]">
-            <!-- En-tête du profil -->
+            
             <div class="bg-white shadow">
                 <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
                     <div class="flex items-center space-x-6">
-                        <!-- Avatar -->
+                      
                         <div class="h-24 w-24 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-2xl font-bold">
                             {{ props.user.name.charAt(0).toUpperCase() }}
                         </div>
@@ -58,12 +58,11 @@ const submit = () => {
                 </div>
             </div>
 
-            <!-- Contenu principal -->
             <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Colonne de gauche - Informations principales -->
+                  
                     <div class="lg:col-span-2 space-y-6">
-                        <!-- Bio -->
+            
                         <div class="bg-white rounded-xl shadow p-6">
                             <h2 class="text-lg font-semibold mb-4">À propos de moi</h2>
                             <textarea
@@ -74,7 +73,6 @@ const submit = () => {
                             ></textarea>
                         </div>
 
-                        <!-- Expérience -->
                         <div class="bg-white rounded-xl shadow p-6">
                             <h2 class="text-lg font-semibold mb-4">Expérience professionnelle</h2>
                             <textarea
@@ -85,7 +83,6 @@ const submit = () => {
                             ></textarea>
                         </div>
 
-                        <!-- Formation -->
                         <div class="bg-white rounded-xl shadow p-6">
                             <h2 class="text-lg font-semibold mb-4">Formation</h2>
                             <textarea
@@ -97,9 +94,7 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <!-- Colonne de droite - Informations complémentaires -->
                     <div class="space-y-6">
-                        <!-- Informations de contact -->
                         <div class="bg-white rounded-xl shadow p-6">
                             <h2 class="text-lg font-semibold mb-4">Informations professionnelles</h2>
                             <div class="space-y-4">
@@ -138,7 +133,6 @@ const submit = () => {
                             </div>
                         </div>
 
-                        <!-- Statistiques -->
                         <div class="bg-white rounded-xl shadow p-6">
                             <h2 class="text-lg font-semibold mb-4">Statistiques</h2>
                             <div class="space-y-4">
@@ -161,7 +155,6 @@ const submit = () => {
                             </div>
                         </div>
 
-                        <!-- Bouton de sauvegarde -->
                         <button 
                             @click="submit"
                             :disabled="form.processing"

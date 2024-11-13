@@ -24,7 +24,6 @@ class Therapist extends Model
         'hourly_rate' => 'decimal:2'
     ];
 
-    // Vos relations restent identiques
     public function user()
     {
         return $this->belongsTo(User::class);

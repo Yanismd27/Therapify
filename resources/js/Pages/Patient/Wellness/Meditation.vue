@@ -166,8 +166,8 @@ const currentSound = ref(null)
 const audio = ref(null)
 
 const backgroundSounds = [
-    { id: 'rain', name: 'Rain', icon: '🌧', url: rainSound },  // Utilise l'import
-    { id: 'waves', name: 'Ocean', icon: '🌊', url: wavesSound },  // Chemin direct
+    { id: 'rain', name: 'Rain', icon: '🌧', url: rainSound },  
+    { id: 'waves', name: 'Ocean', icon: '🌊', url: wavesSound },  
     { id: 'forest', name: 'Forest', icon: '🌲', url: forestSound },
     { id: 'white-noise', name: 'White Noise', icon: '🌫', url: whiteNoiseSound }
 ]

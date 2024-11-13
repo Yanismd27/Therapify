@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'specialty' => $specialty,
                 'bio' => "Experienced {$specialty}",
-                'education' => "Ph.D. in {$specialty}", // Ajouté
-                'experience' => "10+ years of clinical experience", // Ajouté
+                'education' => "Ph.D. in {$specialty}", 
+                'experience' => "10+ years of clinical experience", 
                 'license_number' => "LIC" . rand(1000, 9999),
                 'hourly_rate' => rand(80, 200),
                 'availability' => json_encode([

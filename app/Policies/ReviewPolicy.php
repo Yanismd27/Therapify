@@ -10,7 +10,7 @@ class ReviewPolicy
 {
     public function viewAny(?User $user)
     {
-        return true; // Tout le monde peut voir les avis
+        return true;
     }
 
     public function view(?User $user, Review $review)

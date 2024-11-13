@@ -18,7 +18,6 @@
   font-weight: 500 !important;
 }
 
-/* Success Toast */
 .Vue-Toastification__toast--success {
   background: #F0FDF4 !important;
   border-left: 4px solid #22C55E !important;
@@ -32,7 +31,7 @@
   color: #15803D !important;
 }
 
-/* Error Toast */
+
 .Vue-Toastification__toast--error {
   background: #FEF2F2 !important;
   border-left: 4px solid #EF4444 !important;
@@ -46,7 +45,6 @@
   color: #B91C1C !important;
 }
 
-/* Warning Toast */
 .Vue-Toastification__toast--warning {
   background: #FFFBEB !important;
   border-left: 4px solid #F59E0B !important;
@@ -60,7 +58,7 @@
   color: #B45309 !important;
 }
 
-/* Info Toast */
+
 .Vue-Toastification__toast--info {
   background: #EFF6FF !important;
   border-left: 4px solid #3B82F6 !important;
@@ -74,7 +72,7 @@
   color: #1D4ED8 !important;
 }
 
-/* Icon Styles */
+
 .custom-toast-icon {
   width: 20px !important;
   height: 20px !important;
@@ -84,7 +82,7 @@
   justify-content: center !important;
 }
 
-/* Close Button */
+
 .Vue-Toastification__close-button {
   position: relative !important;
   top: 1px !important;
@@ -98,13 +96,11 @@
   opacity: 0.8 !important;
 }
 
-/* Container */
 .Vue-Toastification__container {
   padding: 12px !important;
   gap: 8px !important;
 }
 
-/* Animations */
 .Vue-Toastification__bounce-enter-active {
   animation: toast-in 0.3s ease forwards;
 }
@@ -135,7 +131,6 @@
   }
 }
 
-/* Hide Progress Bar */
 .Vue-Toastification__progress-bar {
   display: none !important;
 }

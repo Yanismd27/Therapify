@@ -9,10 +9,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            // Supprimer l'ancienne colonne si elle existe
-            $table->dropColumn('scheduled_at');
             
-            // Ajouter les nouvelles colonnes
+            $table->dropColumn('scheduled_at');
+   
             $table->dateTime('start_time');
             $table->dateTime('end_time');
         });

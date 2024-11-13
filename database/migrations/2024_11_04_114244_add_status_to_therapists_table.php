@@ -10,18 +10,30 @@ return new class extends Migration
     {
         Schema::table('therapists', function (Blueprint $table) {
             if (!Schema::hasColumn('therapists', 'status')) {
-                $table->string('status')->default('active');
+                $table->enum('status', ['active', 'inactive', 'pending'])->default('pending');
+            }
+            if (!Schema::hasColumn('therapists', 'specialty')) {
+                $table->string('specialty')->nullable();
+            }
+            if (!Schema::hasColumn('therapists', 'bio')) {
+                $table->text('bio')->nullable();
+            }
+            if (!Schema::hasColumn('therapists', 'rating')) {
+                $table->decimal('rating', 3, 2)->nullable();
+            }
+            if (!Schema::hasColumn('therapists', 'experience')) {
+                $table->integer('experience')->nullable();
+            }
+            if (!Schema::hasColumn('therapists', 'tags')) {
+                $table->json('tags')->nullable();
             }
         });
-
-        // Mettre à jour les thérapeutes existants
-        DB::table('therapists')->update(['status' => 'active']);
     }
 
     public function down()
     {
         Schema::table('therapists', function (Blueprint $table) {
-            $table->dropColumn('status');
+            $table->dropColumn(['status', 'specialty', 'bio', 'rating', 'experience', 'tags']);
         });
     }
 };

@@ -7,7 +7,6 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
-import "@/Utils/toast.css"; // Importe ton CSS personnalisé après le CSS par défaut
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -24,8 +23,6 @@ createInertiaApp({
         app.use(plugin)
            .use(ZiggyVue)
            .use(Toast, {
-               // Retire la configuration ici pour utiliser celle de ton fichier toast.js
-               // Garde uniquement les options essentielles qui ne sont pas dans ton toast.js
                position: "top-right",
                timeout: 3000,
                closeOnClick: true,

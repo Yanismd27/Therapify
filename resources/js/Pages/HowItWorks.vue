@@ -1,17 +1,15 @@
 <template>
   <div class="min-h-screen bg-[#FAFAFA]">
-    <!-- Navigation -->
     <nav class="w-full py-6 px-6 lg:px-12 border-b bg-white">
       <div class="flex justify-between items-center">
-        <!-- Logo -->
+        
         <Link :href="route('home')" class="flex items-center group">
           <div class="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
             <div class="h-6 w-6 bg-white rounded-full"></div>
           </div>
           <span class="ml-3 text-xl font-bold tracking-tight">Therapify</span>
         </Link>
-        
-        <!-- Menu -->
+       
         <div class="hidden lg:flex items-center space-x-10">
           <Link 
             v-for="item in menuItems" 
@@ -23,7 +21,7 @@
           </Link>
         </div>
         
-        <!-- Auth Buttons -->
+        
         <div class="hidden lg:flex items-center space-x-4">
           <Link 
             :href="route('login')"
@@ -39,7 +37,7 @@
           </Link>
         </div>
  
-        <!-- Mobile Menu Button -->
+       
         <button 
           @click="mobileMenuOpen = !mobileMenuOpen"
           class="lg:hidden p-2 rounded-lg hover:bg-gray-100"
@@ -51,7 +49,7 @@
         </button>
       </div>
  
-      <!-- Mobile Menu -->
+      
       <div 
         v-show="mobileMenuOpen"
         class="lg:hidden absolute top-20 left-0 right-0 bg-white shadow-lg p-4 transition-all transform z-50"
@@ -83,10 +81,10 @@
       </div>
     </nav>
  
-    <!-- Main Content -->
+   
     <div class="max-w-[1400px] mx-auto px-6 lg:px-12 pt-12">
       <div class="relative">
-        <!-- Hero Section -->
+       
         <div class="max-w-3xl mx-auto text-center mb-20">
           <h1 class="text-5xl lg:text-7xl font-bold leading-tight tracking-tight text-gray-900 mb-8">
             Begin Your
@@ -103,7 +101,7 @@
           </p>
         </div>
  
-        <!-- Process Cards -->
+       
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
           <div v-for="(step, index) in mainSteps" 
                :key="index"
@@ -119,9 +117,9 @@
           </div>
         </div>
  
-        <!-- Feature Sections -->
+        
         <div class="space-y-32">
-          <!-- Matching Section -->
+          
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
               <div class="inline-flex items-center px-4 py-2 bg-purple-100 rounded-full text-purple-600 font-medium mb-4">
@@ -172,7 +170,7 @@
             </div>
           </div>
  
-          <!-- Booking Section -->
+         
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1 bg-gradient-to-br from-purple-100 to-blue-50 p-8 rounded-2xl">
               <div class="bg-white rounded-xl shadow-lg p-6">
@@ -212,7 +210,7 @@
           </div>
         </div>
  
-        <!-- CTA Section -->
+
         <div class="mt-32 text-center bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl p-12 relative overflow-hidden">
           <div class="absolute inset-0 bg-pattern opacity-10"></div>
           <div class="relative z-10">
@@ -237,7 +235,6 @@
           </div>
         </div>
  
-        <!-- Background Effects -->
         <div class="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-purple-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
         <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-3xl opacity-30 -z-10"></div>
       </div>
@@ -300,7 +297,7 @@
  </script>
  
  <style scoped>
-/* Animations */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -331,7 +328,7 @@
   animation: scaleIn 0.5s ease-out forwards;
 }
 
-/* Card transitions */
+
 .card-hover {
   transition: all 0.3s ease;
 }
@@ -341,18 +338,17 @@
   box-shadow: 0 12px 24px -8px rgba(107, 33, 168, 0.15);
 }
 
-/* Gradient background for CTA */
 .bg-gradient-custom {
   background: linear-gradient(135deg, #7e22ce 0%, #4f46e5 100%);
 }
 
-/* Pattern background */
+
 .bg-pattern {
   background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
-/* Custom scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -370,14 +366,13 @@
   background: #c084fc;
 }
 
-/* Responsive padding adjustments */
+
 @media (max-width: 768px) {
   .section-padding {
     padding: 3rem 1.5rem;
   }
 }
 
-/* Custom shape divider */
 .shape-divider {
   position: absolute;
   bottom: 0;

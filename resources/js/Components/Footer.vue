@@ -30,7 +30,6 @@
           </div>
         </div>
 
-        <!-- Links Columns -->
         <div>
           <h3 class="text-gray-900 font-semibold mb-4">Company</h3>
           <ul class="space-y-3">
@@ -111,7 +110,7 @@
       </div>
     </div>
 
-    <!-- Bottom Bar -->
+    <!-- Bottom Footer -->
     <div class="relative z-10 border-t">
       <div class="max-w-[1400px] mx-auto px-6 lg:px-12 py-6">
         <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
@@ -161,7 +160,6 @@ import { Link } from '@inertiajs/vue3';
 const selectedRegion = ref('fr');
 
 const handleRegionChange = () => {
-  // Implémentation du changement de région
   console.log('Region changed to:', selectedRegion.value);
 };
 </script>
@@ -172,7 +170,7 @@ footer {
   margin-top: auto;
 }
 
-/* Transitions et hover effects */
+
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -183,7 +181,7 @@ footer {
   transform: scale(1.1);
 }
 
-/* Focus styles pour l'accessibilité */
+
 a:focus, button:focus, select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -193,7 +191,7 @@ a:focus, button:focus, select:focus {
   --tw-ring-color: rgba(147, 51, 234, 0.5);
 }
 
-/* Style du select personnalisé */
+
 select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
@@ -203,7 +201,6 @@ select {
   padding-right: 2rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .grid-cols-1 {
     row-gap: 2rem;

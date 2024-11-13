@@ -21,7 +21,7 @@ class PatientPolicy
 
     public function create(User $user)
     {
-        return true; // Tout le monde peut créer un compte patient
+        return true; 
     }
 
     public function update(User $user, Patient $patient)

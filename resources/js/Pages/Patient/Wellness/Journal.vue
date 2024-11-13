@@ -78,7 +78,6 @@ const changePrompt = () => {
 
 const saveEntry = () => {
     if (journalEntry.value.trim()) {
-        // Ici vous pouvez ajouter la logique pour sauvegarder l'entrée
         toast.success('Journal entry saved successfully')
         journalEntry.value = ''
     } else {

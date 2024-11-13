@@ -9,7 +9,7 @@ class AppointmentPolicy
 {
     public function viewAny(User $user)
     {
-        return true; // Les utilisateurs authentifiés peuvent voir leurs rendez-vous
+        return true; 
     }
 
     public function view(User $user, Appointment $appointment)
@@ -21,7 +21,7 @@ class AppointmentPolicy
 
     public function create(User $user)
     {
-        return $user->role === 'patient'; // Seuls les patients peuvent créer des rendez-vous
+        return $user->role === 'patient'; 
     }
 
     public function update(User $user, Appointment $appointment)

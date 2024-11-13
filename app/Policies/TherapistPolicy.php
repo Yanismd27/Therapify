@@ -9,12 +9,12 @@ class TherapistPolicy
 {
     public function viewAny(?User $user)
     {
-        return true; // Tout le monde peut voir la liste des thérapeutes
+        return true; 
     }
 
     public function view(?User $user, Therapist $therapist)
     {
-        return true; // Tout le monde peut voir un profil de thérapeute
+        return true; 
     }
 
     public function create(User $user)
