@@ -1,18 +1,17 @@
 FROM php:8.2-fpm-alpine
 
-# Install system dependencies
+# Install system dependencies and nginx
 RUN apk add --no-cache \
+    nginx \
     git \
     curl \
     libpng-dev \
     libxml2-dev \
     zip \
-    unzip \
-    nginx \
-    supervisor
+    unzip
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql bcmath gd opcache
+RUN docker-php-ext-install pdo_mysql bcmath gd
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -20,43 +19,35 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
 
 # Copy composer files first
-COPY composer.json composer.lock ./
+COPY composer.* ./
 
 # Install composer dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Copy the rest of the application
+# Copy application files
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p /var/www/storage/framework/sessions \
-    /var/www/storage/framework/views \
-    /var/www/storage/framework/cache \
-    /var/www/bootstrap/cache
+# Configure nginx
+COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 
-# Set permissions
-RUN chmod -R 775 storage bootstrap/cache
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Create necessary directories and set permissions
+RUN mkdir -p /var/www/storage/framework/{sessions,views,cache} \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Copy .env and generate key
-COPY .env.example .env
+# Copy and set up environment file
+COPY .env.production .env
 RUN php artisan key:generate --force
 
-# Configure PHP
-RUN echo "php_flag[display_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
-RUN echo "catch_workers_output = yes" >> /usr/local/etc/php-fpm.d/www.conf
-
 # Create start script
-RUN echo '#!/bin/sh' > /start.sh
-RUN echo 'php artisan optimize:clear' >> /start.sh
-RUN echo 'php artisan optimize' >> /start.sh
-RUN echo 'php artisan serve --host=0.0.0.0 --port=8000' >> /start.sh
-RUN chmod +x /start.sh
+RUN echo '#!/bin/sh' > /start.sh \
+    && echo 'php artisan config:cache' >> /start.sh \
+    && echo 'php artisan route:cache' >> /start.sh \
+    && echo 'php artisan view:cache' >> /start.sh \
+    && echo 'php-fpm &' >> /start.sh \
+    && echo 'nginx -g "daemon off;"' >> /start.sh \
+    && chmod +x /start.sh
 
-# Add healthcheck
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000 || exit 1
-
-EXPOSE 8000
+EXPOSE 80
 
 CMD ["/start.sh"]

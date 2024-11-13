@@ -1,14 +1,11 @@
 [build]
-builder = "nixpacks"
-buildCommand = "composer install && npm install && npm run build"
+builder = "dockerfile"
 
 [deploy]
-startCommand = "php artisan serve"
+startCommand = "/start.sh"
 healthcheckPath = "/"
 healthcheckTimeout = 100
-restartPolicyType = "on_failure"
-numReplicas = 1
+restartPolicyType = "never"
 
-[deploy.envs]
-APP_ENV = "production"
-APP_URL = "https://${RAILWAY_STATIC_URL}"
+[[ports]]
+port = 80
